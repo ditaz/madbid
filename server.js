@@ -88,10 +88,11 @@ app.post('/products/:id', function (req, res) {
         handleError(res, 'Document is invalid', 'Document is invalid', 400);
         return;
     }
+    console.log('route id: ' + req.params.id);
     product.price+=0.01;
     db.collection('products').updateOne({_id: new ObjectID(req.params.id)}, product, function(error, doc) {
         if (error) {
-            handleError(res, err.message, 'Failed to update product');
+            handleError(res, error.message, 'Failed to update product');
         } else {
             res.status(200).json(doc);
         }
