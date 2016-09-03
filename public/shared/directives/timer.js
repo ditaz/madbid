@@ -18,7 +18,6 @@ define([
             scope: {
                 interval: '=',
                 startTime: '=',
-                countDown: '=',
                 product: '='
             },
             templateUrl: '/shared/views/timer.html',
@@ -26,18 +25,18 @@ define([
                 var timeoutId = startCountdown();
 
                 CommunicationChannel.onbid(scope, function(event, data) {
-                    scope.countDown = 30;
+                    scope.product.time = 30;
                     clearInterval(timeoutId);
                     timeoutId = startCountdown();
                 });
 
                 function startCountdown() {
                     var id = $interval(function(){
-                        if(scope.countDown<=0){
+                        if(scope.product.time <= 0){
                             scope.$root.$broadcast('end', '');
                             clearInterval();
                         }else{
-                            scope.countDown--;
+                            scope.product.time--;
                         }
                     }, 1000);
                     return id;

@@ -86,15 +86,15 @@ define([
             }
             var params = {
                 id: _.isUndefined(product['_id']) ? '' : product['_id']
-            };
-            if(product.hasOwnProperty('time'))
-                delete product.time;
-            if(product.hasOwnProperty('$$hashKey'))
-                delete product['$$hashKey'];
+            }, clone = _.clone(product);
+            if(clone.hasOwnProperty('time'))
+                delete clone.time;
+            if(clone.hasOwnProperty('$$hashKey'))
+                delete clone['$$hashKey'];
 
             BidService.save(
                 params,
-                product,
+                clone,
                 function(response) {
                     CommunicationChannel.bid(response);
                 },
