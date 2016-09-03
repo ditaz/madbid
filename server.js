@@ -86,12 +86,10 @@ app.post('/products/:id', function (req, res) {
     var product = req.body;
     if(!hasValidKeys(product)) {
         handleError(res, 'Document is invalid', 'Document is invalid', 400);
+        return;
     }
-    var updateDoc = req.body;
-    if(updateDoc.hasOwnProperty('_id'))
-        delete updateDoc['_id'];
     product.price+=0.01;
-    db.collection('products').updateOne({_id: new ObjectID(req.params.id)}, updateDoc, function(error, doc) {
+    db.collection('products').updateOne({_id: new ObjectID(req.params.id)}, product, function(error, doc) {
         if (error) {
             handleError(res, err.message, 'Failed to update product');
         } else {
@@ -136,6 +134,7 @@ function hasValidKeys(doc) {
     if(doc.hasOwnProperty('time')) {
         delete doc.time;
     }
+    console.log(JSON.stringify(doc));
     return _.difference(keys, requiredKeys).length === 0;
 }
 
