@@ -84,13 +84,14 @@ define([
                 alert('Invalid bid');
                 return;
             }
+            if(product.hasOwnProperty('$$hashKey'))
+                delete product['$$hashKey'];
+
             var params = {
                 id: _.isUndefined(product['_id']) ? '' : product['_id']
             }, clone = _.clone(product);
             if(clone.hasOwnProperty('time'))
                 delete clone.time;
-            if(clone.hasOwnProperty('$$hashKey'))
-                delete clone['$$hashKey'];
 
             BidService.save(
                 params,
