@@ -47,8 +47,17 @@ define([
         BidService.getList(
             function(products) {
                 if(_.isEmpty(products)) {
-                    alert('Failed to get products');
                     $scope.products = initialProducts;
+                    return;
+                }
+                if(initialProducts.length !== products.length) {
+                    var diff = _.difference(initialProducts, products),
+                        reduced = _.map(initialProducts, function(value) {
+                            var newVal = _.filter(products, { name: value.name} );
+                            if(!_.isEmpty(newVal)) return newVal[0];
+                            return value;
+                        });
+                    $scope.products = reduced;
                     return;
                 }
                 $scope.products = products;
@@ -58,7 +67,7 @@ define([
             });
 
         CommunicationChannel.onbid($scope, function (event, data) {
-            var index = _.indexOf($scope.products, { name: data.name });
+            var index = _.findIndex($scope.products, { name: data.name });
             if(index === -1) {
                 alert('Product not found');
                 return;
@@ -67,7 +76,7 @@ define([
         });
 
         CommunicationChannel.onAuctionEnd($scope, function (event, data) {
-
+            
         });
 
         function bid(product) {
@@ -82,7 +91,7 @@ define([
                 delete product.time;
             if(product.hasOwnProperty('$$hashKey'))
                 delete product['$$hashKey'];
-            
+
             BidService.save(
                 params,
                 product,

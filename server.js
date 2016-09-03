@@ -70,6 +70,7 @@ app.post('/products', function (req, res) {
             if(!_.isEmpty(doc)) {
                 handleError(res, 'Product already exists', 'Product already exists', 400);
             }
+            product.price+=0.01;
             db.collection('products').insertOne(product, function(err, doc) {
                 if (err) {
                     handleError(res, err.message, 'Failed to create new product');
@@ -88,7 +89,7 @@ app.post('/products/:id', function (req, res) {
     }
     var updateDoc = req.body;
     delete updateDoc._id;
-
+    product.price+=0.01;
     db.collection('products').updateOne({_id: new ObjectID(req.params.id)}, updateDoc, function(error, doc) {
         if (error) {
             handleError(res, err.message, 'Failed to update product');
