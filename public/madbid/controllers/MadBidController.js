@@ -84,17 +84,18 @@ define([
                 alert('Invalid bid');
                 return;
             }
-            var params = {
-                id: _.isUndefined(product['_id']) ? '' : product['_id']
-            };
-            if(product.hasOwnProperty('time'))
-                delete product.time;
             if(product.hasOwnProperty('$$hashKey'))
                 delete product['$$hashKey'];
 
+            var params = {
+                id: _.isUndefined(product['_id']) ? '' : product['_id']
+            }, clone = _.clone(product);
+            if(clone.hasOwnProperty('time'))
+                delete clone.time;
+
             BidService.save(
                 params,
-                product,
+                clone,
                 function(response) {
                     CommunicationChannel.bid(response);
                 },
