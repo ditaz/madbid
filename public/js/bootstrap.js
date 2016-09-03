@@ -8,6 +8,7 @@ define([
     ,'bootstrap'
     ,'ui-bootstrap'
     ,'angular-resource'
+    ,'lodash'
     ,'CommunicationChannel'
     ,'BidService'
     ,'Timer'

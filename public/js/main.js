@@ -11,6 +11,7 @@ require.config({
         'angular-ui-router': 'node_modules/angular-ui-router/release/angular-ui-router.min',
         'ui-bootstrap': 'node_modules/angular-bootstrap/ui-bootstrap.min',
         'angular-resource': 'node_modules/angular-resource/angular-resource.min',
+        'lodash': 'node_modules/lodash/lodash.min',
         'routesConfig': 'js/route',
 		'app': 'js/app',
         'BaseController': 'shared/controllers/BaseController',
@@ -38,6 +39,9 @@ require.config({
         },
         'angular-resource': {
             deps: ['angular']
+        },
+        'lodash': {
+            exports: '_'
         },
         'CommunicationChannel':{
             deps: ['angular']
