@@ -126,14 +126,14 @@ function handleError(response, reason, message, code) {
 }
 
 function hasValidKeys(doc) {
-    var keys = Object.keys(doc),
-        requiredKeys = ['name', 'category', 'price', 'winUser'];
     if(doc.hasOwnProperty('_id')) {
         delete doc['_id'];
     }
     if(doc.hasOwnProperty('time')) {
         delete doc.time;
     }
+    var keys = Object.keys(doc),
+        requiredKeys = ['name', 'category', 'price', 'winUser'];
     console.log(JSON.stringify(doc));
     return _.difference(keys, requiredKeys).length === 0;
 }
