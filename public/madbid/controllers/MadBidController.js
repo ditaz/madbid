@@ -48,8 +48,10 @@ define([
             function(products) {
                 if(_.isEmpty(products)) {
                     alert('Failed to get products');
+                    $scope.products = initialProducts;
+                    return;
                 }
-                $scope.products = products || initialProducts;
+                $scope.products = products;
             },
             function(response) {
                 $scope.products = initialProducts;
