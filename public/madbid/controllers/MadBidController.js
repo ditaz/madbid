@@ -53,8 +53,9 @@ define([
                 if(initialProducts.length !== products.length) {
                     var diff = _.difference(initialProducts, products),
                         reduced = _.map(initialProducts, function(value) {
-                            var newVal = _.filter(products, { name: value.name} );
-                            if(!_.isEmpty(newVal)) return newVal[0];
+                            var newVal = _.filter(products, { name: value.name} )[0];
+                            if(!newVal.hasOwnProperty('time')) newVal['time'] = 30;
+                            if(!_.isEmpty(newVal)) return newVal;
                             return value;
                         });
                     $scope.products = reduced;
