@@ -6,8 +6,7 @@ var express = require('express'),
     server = require('http').createServer(app),
     mongodb = require('mongodb'),
     bodyParser = require('body-parser'),
-    path = require('path'),
-    _ = require('lodash');
+    path = require('path');
 
 app.use(function(req, res, next) {
     var allowedOrigins = ['https://madbid.herokuapp.com'],
@@ -31,7 +30,7 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
-var isLocal = true;
+var isLocal = false;
 if(isLocal) {
     // listen to requests at given port
     server.listen(process.env.PORT || 5000);
@@ -126,7 +125,8 @@ function handleError(response, reason, message, code) {
 }
 
 function hasValidKeys(doc) {
-    var keys = Object.keys(doc),
+    var _ = require('lodash'),
+        keys = Object.keys(doc),
         requiredKeys = ['name', 'category', 'price', 'winUser'];
     if(doc.hasOwnProperty('_id')) {
         delete doc._id;
