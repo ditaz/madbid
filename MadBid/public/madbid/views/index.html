@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<div data-ng-controller="MadBidController">
+    <div class="row" id="header">
+        <h3 class="col col1">Product Name</h3>
+        <h3 class="col col2">Current Auction Price</h3>
+        <h3 class="col col3">Winning UserName</h3>
+        <h3 class="col col4">Time Left</h3>
+        <h3 class="col col5">Bid!</h3>
+    </div>
+    <div class="row" id="prod-list" data-ng-repeat="product in products">
+        <div class="col col1">
+            <p>{{product.name}}</p>
+        </div>
+        <div class="col col2">
+           <p>{{product.price}}</p>
+        </div>
+        <div class="col col3">
+            <p>{{product.winUser}}</p>
+        </div>
+        <div class="col col4">
+            <p><timer count-down="30"></timer></p>
+        </div>
+        <div class="col col5">
+            <p><button class="button" data-ng-click="bid()">BID!</button></p>
+        </div>
+    </div>
+</div>
+</html>

@@ -1,0 +1,44 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.row{
+    display: table;
+    width: 60%;
+    min-width: 600px;
+    border-top: 1px solid #7b7b7b;
+}
+
+.col{
+    display: table-cell;
+    text-align: center;
+    width: 20%;
+}
+
+#header{
+    background: #f7f5f5;
+}
+
+h3{
+    font-size: 14px;
+    color: #1d1821;
+    line-height: 40px;
+}
+
+p{
+    font-size: 13px;
+    color: #060606;
+    margin: 10px;
+}
+
+.button{
+    border: none;
+    border-radius: 2px;
+    background: #464748;
+    border-radius: 8px;
+    width: 52px;
+    color: #fff;
+    line-height: 24px;
+    cursor: pointer;
+    outline: none;
+}

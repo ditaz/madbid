@@ -1,0 +1,26 @@
+{
+  "name": "madbid",
+  "version": "1.0.0",
+  "description": "Bidding Site",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Auction",
+    "Bidding"
+  ],
+  "author": "Ditas Sudla",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-bootstrap": "^0.12.2",
+    "angular-resource": "^1.5.8",
+    "angular-ui-router": "^0.3.1",
+    "bootstrap": "^3.3.7",
+    "express": "^4.14.0",
+    "jquery": "^3.1.0",
+    "mongodb": "^2.2.9",
+    "requirejs": "^2.2.0"
+  }
+}
