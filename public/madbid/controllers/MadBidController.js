@@ -76,7 +76,7 @@ define([
         });
 
         CommunicationChannel.onAuctionEnd($scope, function (event, data) {
-            
+
         });
 
         function bid(product) {
@@ -85,7 +85,7 @@ define([
                 return;
             }
             var params = {
-                id: _.isUndefined(product._id) ? '' : product_.id
+                id: _.isUndefined(product['_id']) ? '' : product['_id']
             };
             if(product.hasOwnProperty('time'))
                 delete product.time;
