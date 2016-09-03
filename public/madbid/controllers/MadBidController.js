@@ -56,7 +56,7 @@ define([
             function(response) {
                 $scope.products = initialProducts;
             });
-        
+
         CommunicationChannel.onbid($scope, function (event, data) {
             var index = _.indexOf($scope.products, { name: data.name });
             if(index === -1) {
@@ -78,6 +78,11 @@ define([
             var params = {
                 id: _.isUndefined(product._id) ? '' : product_.id
             };
+            if(product.hasOwnProperty('time'))
+                delete product.time;
+            if(product.hasOwnProperty('$$hashKey'))
+                delete product['$$hashKey'];
+            
             BidService.save(
                 params,
                 product,

@@ -30,6 +30,14 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
+var isLocal = false;
+if(isLocal) {
+    // listen to requests at given port
+    server.listen(process.env.PORT || 5000);
+    console.log('Running on port: ' + server.address().port);
+    return;
+}
+
 var db,
     ObjectID = mongodb.ObjectID;
 mongodb.MongoClient.connect(process.env.MONGODB_URI, function(error, database) {
@@ -122,6 +130,9 @@ function hasValidKeys(doc) {
         requiredKeys = ['name', 'category', 'price', 'winUser'];
     if(doc.hasOwnProperty('_id')) {
         delete doc._id;
+    }
+    if(doc.hasOwnProperty('time')) {
+        delete doc.time;
     }
     return _.difference(keys, requiredKeys).length === 0;
 }
