@@ -25,7 +25,7 @@ define([
                 var timeoutId = startCountdown();
 
                 CommunicationChannel.onbid(scope, function(event, data) {
-                    scope.product.time = 30;
+                    data['time'] = 30;
                     clearInterval(timeoutId);
                     timeoutId = startCountdown();
                 });
