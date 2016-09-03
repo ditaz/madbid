@@ -88,7 +88,9 @@ app.post('/products/:id', function (req, res) {
         handleError(res, 'Document is invalid', 'Document is invalid', 400);
         return;
     }
-    console.log('route id: ' + req.params.id);
+    if(product.hasOwnProperty('_id'))
+        delete product['_id'];
+
     product.price+=0.01;
     db.collection('products').updateOne({_id: new ObjectID(req.params.id)}, product, function(error, doc) {
         if (error) {
