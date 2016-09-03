@@ -117,7 +117,7 @@ function handleError(response, reason, message, code) {
 }
 
 function hasValidKeys(doc) {
-    var lodash = require('lodash'),
+    var _ = require('lodash'),
         keys = Object.keys(doc),
         requiredKeys = ['name', 'category', 'price', 'winUser'];
     if(doc.hasOwnProperty('_id')) {
