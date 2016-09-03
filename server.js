@@ -96,7 +96,13 @@ app.post('/products/:id', function (req, res) {
         if (error) {
             handleError(res, error.message, 'Failed to update product');
         } else {
-            res.status(200).json(doc);
+            db.collection('products').findOne({ _id: new ObjectID(req.params.id) }, function(error, doc) {
+                if(error) {
+                    handleError(res, error.message, 'Failed to get product', 404);
+                } else {
+                    res.status(200).json(doc);
+                }
+            });
         }
     });
 });
