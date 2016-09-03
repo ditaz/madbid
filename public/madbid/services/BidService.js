@@ -10,21 +10,49 @@ define([
     return BidService;
 
     function BidService($resource) {
-        var endpoint = 'http://localhost:5000',
+        var endpoint = 'https://madbid.herokuapp.com/products/:id',
             resource = $resource(
-                endpoint);
+                endpoint,
+                {
+                    id: '@id'
+                }
+            );
         return {
-            bid: function(data, success, error) {
-                resource.save(data
-                    , function(response) {
-                        if(success !== undefined && success instanceof Function)
+            save: function (params, data, success, error) {
+                resource.save(
+                    params
+                    , data
+                    , function (response) {
+                        if (success !== undefined && success instanceof Function)
                             success.call(undefined, response);
                     }
-                    , function(response) {
-                        if(error !== undefined && error instanceof Function)
+                    , function (response) {
+                        if (error !== undefined && error instanceof Function)
                             error.call(undefined, response);
+                    });
+            },
+            get: function (params, success, error) {
+                resource.get(
+                    params
+                    , function (response) {
+                        if (success !== undefined && success instanceof Function)
+                            success.call(undefined, response);
                     }
-                )
+                    , function (response) {
+                        if (error !== undefined && error instanceof Function)
+                            error.call(undefined, response);
+                    });
+            },
+            getList: function (success, error) {
+                resource.query(
+                    function (response) {
+                        if (success !== undefined && success instanceof Function)
+                            success.call(undefined, response);
+                    }
+                    , function (response) {
+                        if (error !== undefined && error instanceof Function)
+                            error.call(undefined, response);
+                    });
             }
         };
     }
