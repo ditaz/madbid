@@ -63,6 +63,9 @@ define([
                     $scope.products = reduced;
                     return;
                 }
+                _.forEach(products, function (index, val) {
+                    if(!val.hasOwnProperty('time')) val['time'] = 30;
+                });
                 $scope.products = products;
             },
             function(response) {
