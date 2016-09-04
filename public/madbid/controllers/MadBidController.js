@@ -118,6 +118,14 @@ define([
             product.winUser = _.isEmpty(possibleWinners) || _.isEmpty(bidsTally) ? 'No Winner'
                 : (highestBidder.bids > 0 ? highestBidder.name : 'No Winner');
             product.time = 0;
+
+            if(product.hasOwnProperty('$$hashKey'))
+                delete product['$$hashKey'];
+
+            var params = {
+                id: _.isUndefined(product['_id']) ? '' : product['_id']
+            };
+
             ProductService.save(
                 params,
                 product,
