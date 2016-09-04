@@ -127,14 +127,12 @@ app.get('/products', function(req, res) {
 });
 
 app.delete('/products', function(req, res) {
-   db.collections('products', function(error, collection) {
-       collection.remove({}, function(error, response) {
-           if (error) {
-               handleError(res, error.message, 'Failed to drop products collection', 500);
-           } else {
-               res.status(200).json({response: response});
-           }
-       });
+   db.collection('products').drop(function(error, collection) {
+       if (error) {
+           handleError(res, error.message, 'Failed to drop products collection', 500);
+       } else {
+           res.status(200).json({response: response});
+       }
    });
 });
 
