@@ -91,6 +91,7 @@ define([
         });
 
         CommunicationChannel.onAuctionEnd($scope, function (event, product) {
+            if(!_.isEmpty(product.winUser)) return;
             var possibleWinners = _.filter($scope.userNames, isEligible),
                 bidsTally = [];
             if(!_.isEmpty(_.find(possibleWinners, { name: ZERO_COOL }))) {
