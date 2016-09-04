@@ -127,7 +127,7 @@ app.get('/products', function(req, res) {
 });
 
 app.delete('/products', function(req, res) {
-   db.collection('products').drop(function(error, collection) {
+   db.collection('products').drop(function(error, response) {
        if (error) {
            handleError(res, error.message, 'Failed to drop products collection', 500);
        } else {
