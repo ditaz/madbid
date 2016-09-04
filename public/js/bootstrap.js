@@ -4,14 +4,16 @@
 define([
     'app'
     ,'angular'
+    ,'angular-resource'
+    ,'angular-storage'
     ,'angular-ui-router'
     ,'bootstrap'
     ,'ui-bootstrap'
-    ,'angular-resource'
     ,'lodash'
     ,'CommunicationChannel'
-    ,'BidService'
+    ,'ProductService'
     ,'Timer'
+    ,'StorageService'
     ,'BaseController'
     ,'MadBidController'
 ], function() {

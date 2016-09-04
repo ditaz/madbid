@@ -11,79 +11,111 @@ define([
 
     MadBidController.$inject = [
         '$scope'
-        ,'$state'
-        ,'$stateParams'
         ,'CommunicationChannel'
-        ,'BidService'
+        ,'ProductService'
     ];
 
     return MadBidController;
 
     function MadBidController(
         $scope
-        ,$state
-        ,$stateParams
         ,CommunicationChannel
-        ,BidService
+        ,ProductService
     ) {
+        const ZERO_COOL = 'Zero Cool',
+            ACID_BURN = 'Acid Burn',
+            THE_PLAGUE = 'The Plague',
+            CRASH_OVERRIDE = 'Crash Override'
+
         $scope.bid = bid;
+        $scope.reset = reset;
         $scope.products = [];
-            
+
         var initialProducts = [
-            {name: 'Product 1', price: 10, winUser: '', time: 30, category: ''},
-            {name: 'Product 2', price: 10, winUser: '', time: 30, category: ''},
-            {name: 'Product 3', price: 20, winUser: '', time: 30, category: ''},
-            {name: 'Product 4', price: 40, winUser: '', time: 30, category: ''},
-            {name: 'Product 5', price: 50, winUser: '', time: 30, category: ''},
-            {name: 'Product 6', price: 90, winUser: '', time: 30, category: ''},
-            {name: 'Product 7', price: 100, winUser: '', time: 30, category: ''},
-            {name: 'Product 8', price: 70, winUser: '', time: 30, category: ''},
-            {name: 'Product 9', price: 8, winUser: '', time: 30, category: ''},
-            {name: 'Product 10', price: 30, winUser: '', time: 30, category: ''},
-            {name: 'Product 11', price: 20, winUser: '', time: 30, category: ''},
-            {name: 'Product 12', price: 6, winUser: '', time: 30, category: ''}
+            {name: 'Product 1', price: 10, winUser: '', time: 30, category: '', bidders: [], lastBidder: ''},
+            {name: 'Product 2', price: 10, winUser: '', time: 30, category: '', bidders: [], lastBidder: ''},
+            {name: 'Product 3', price: 20, winUser: '', time: 30, category: '', bidders: [], lastBidder: ''},
+            {name: 'Product 4', price: 40, winUser: '', time: 30, category: '', bidders: [], lastBidder: ''},
+            {name: 'Product 5', price: 50, winUser: '', time: 30, category: '', bidders: [], lastBidder: ''},
+            {name: 'Product 6', price: 90, winUser: '', time: 30, category: '', bidders: [], lastBidder: ''},
+            {name: 'Product 7', price: 100, winUser: '', time: 30, category: '', bidders: [], lastBidder: ''},
+            {name: 'Product 8', price: 70, winUser: '', time: 30, category: '', bidders: [], lastBidder: ''},
+            {name: 'Product 9', price: 8, winUser: '', time: 30, category: '', bidders: [], lastBidder: ''},
+            {name: 'Product 10', price: 30, winUser: '', time: 30, category: '', bidders: [], lastBidder: ''},
+            {name: 'Product 11', price: 20, winUser: '', time: 30, category: '', bidders: [], lastBidder: ''},
+            {name: 'Product 12', price: 6, winUser: '', time: 30, category: '', bidders: [], lastBidder: ''}
         ];
         
-        BidService.getList(
+        ProductService.getList(
             function(products) {
                 if(_.isEmpty(products)) {
                     $scope.products = initialProducts;
+                    initUsers();
                     return;
                 }
                 if(initialProducts.length !== products.length) {
-                    var diff = _.difference(initialProducts, products),
-                        reduced = _.map(initialProducts, function(value) {
+                    var reduced = _.map(initialProducts, function(value) {
                             var newVal = _.filter(products, { name: value.name} )[0];
                             if(!_.isEmpty(newVal)) {
                                 if(!newVal.hasOwnProperty('time')) newVal['time'] = 30;
+                                if(!value.hasOwnProperty('bidders')) value['bidders'] = [];
                                 return newVal;
                             }
                             return value;
                         });
                     $scope.products = reduced;
+                    initUsers();
                     return;
                 }
                 _.forEach(products, function (val) {
                     if(!val.hasOwnProperty('time')) val['time'] = 30;
+                    if(!val.hasOwnProperty('bidders')) val['bidders'] = [];
                     val.price = parseFloat(val.price.toFixed(2));
                 });
                 $scope.products = products;
+                initUsers();
             },
             function(response) {
                 $scope.products = initialProducts;
+                initUsers();
             });
 
-        CommunicationChannel.onbid($scope, function (event, data) {
-            var index = _.findIndex($scope.products, { name: data.name });
+        CommunicationChannel.onbid($scope, function (event, product) {
+            var index = _.findIndex($scope.products, { name: product.name });
             if(index === -1) {
                 alert('Product not found');
                 return;
             }
-            $scope.products[index] = data;
+            $scope.products[index] = product;
+            initUsers();
         });
 
-        CommunicationChannel.onAuctionEnd($scope, function (event, data) {
-
+        CommunicationChannel.onAuctionEnd($scope, function (event, product) {
+            var possibleWinners = _.filter($scope.userNames, isEligible),
+                bidsTally = [];
+            if(!_.isEmpty(_.find(possibleWinners, { name: ZERO_COOL }))) {
+                bidsTally.push({ name: ZERO_COOL, bids: _.filter(product.bidders, function(val) {
+                    if(val === ZERO_COOL) return val;
+                }).length});
+            }
+            if(!_.isEmpty(_.find(possibleWinners, { name: CRASH_OVERRIDE }))) {
+                bidsTally.push({ name: CRASH_OVERRIDE, bids: _.filter(product.bidders, function(val) {
+                    if(val === CRASH_OVERRIDE) return val;
+                }).length});
+            }
+            if(!_.isEmpty(_.find(possibleWinners, { name: ACID_BURN }))) {
+                bidsTally.push({ name: ACID_BURN, bids: _.filter(product.bidders, function(val) {
+                    if(val === ACID_BURN) return val;
+                }).length});
+            }
+            if(!_.isEmpty(_.find(possibleWinners, { name: THE_PLAGUE }))) {
+                bidsTally.push({ name: THE_PLAGUE, bids: _.filter(product.bidders, function(val) {
+                    if(val === THE_PLAGUE) return val;
+                }).length});
+            }
+            var highestBidder = _.sortBy(bidsTally, ['bids'])[bidsTally.length - 1];
+            product.winUser = _.isEmpty(possibleWinners) || _.isEmpty(bidsTally) ? 'No Winner'
+                : (highestBidder.bids > 0 ? highestBidder.name : 'No Winner');
         });
 
         function bid(product) {
@@ -91,25 +123,69 @@ define([
                 alert('Invalid bid');
                 return;
             }
+            product.bidders.push(product.lastBidder);
             if(product.hasOwnProperty('$$hashKey'))
                 delete product['$$hashKey'];
 
             var params = {
                 id: _.isUndefined(product['_id']) ? '' : product['_id']
-            }, clone = _.clone(product);
-            if(clone.hasOwnProperty('time'))
-                delete clone.time;
+            };
 
-            BidService.save(
+            ProductService.save(
                 params,
-                clone,
+                product,
                 function(response) {
                     CommunicationChannel.bid(response);
                 },
                 function(response) {
-                    alert(response.error);
+                    alert('Your bid has failed');
                 }
             );
+        }
+
+        function getBids(userName) {
+            var products =_.filter($scope.products, function(val) {
+                if (val.bidders.indexOf(userName) > -1) return val;
+            });
+            if(_.isEmpty(products)) return 0;
+            var bids = 0;
+            _.forEach(products, function(val1) {
+                _.forEach(val1.bidders, function(val2) {
+                    if(val2 === userName) bids++;
+                });
+            });
+            return bids;
+        }
+
+        function getLiveAuctions(userName) {
+            var liveAuctions = _.filter($scope.products, function(val) {
+                if(val.bidders.indexOf(userName) > -1 && val.time > 0)
+                    return val;
+            });
+            return _.isEmpty(liveAuctions) ? 0 : liveAuctions.length;
+        }
+
+        function initUsers() {
+            $scope.userNames = [
+                {name: ZERO_COOL, bids: getBids(ZERO_COOL), auctions: getLiveAuctions(ZERO_COOL)},
+                {name: CRASH_OVERRIDE, bids: getBids(CRASH_OVERRIDE), auctions: getLiveAuctions(CRASH_OVERRIDE)},
+                {name: ACID_BURN, bids: getBids(ACID_BURN), auctions: getLiveAuctions(ACID_BURN)},
+                {name: THE_PLAGUE, bids: getBids(THE_PLAGUE), auctions: getLiveAuctions(THE_PLAGUE)}
+            ];
+        }
+
+        function isEligible(user) {
+            return user.bids < 15 && user.auctions < 2;
+        }
+
+        function reset() {
+            ProductService.reset(
+                function(response) {
+                    window.location.reload();
+                },
+                function(response) {
+
+                });
         }
     }
 });

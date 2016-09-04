@@ -33,9 +33,9 @@ define([
                 function startCountdown() {
                     var id = $interval(function(){
                         if(scope.product.time <= 0){
-                            scope.$root.$broadcast('end', '');
+                            CommunicationChannel.endAuction(scope.product);
                             clearInterval();
-                        }else{
+                        } else {
                             scope.product.time--;
                         }
                     }, 1000);

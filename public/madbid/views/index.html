@@ -12,6 +12,7 @@
         <h3 class="col col3">Winning UserName</h3>
         <h3 class="col col4">Time Left</h3>
         <h3 class="col col5">Bid!</h3>
+        <h3 class="col col6">Bidders</h3>
     </div>
     <div class="row" id="prod-list" data-ng-repeat="product in products">
         <div class="col col1">
@@ -29,6 +30,14 @@
         <div class="col col5">
             <p><button class="button" data-ng-click="bid(product)">BID!</button></p>
         </div>
+        <div class="col col5">
+            <p>
+                <select data-ng-model="product.lastBidder">
+                    <option data-ng-value="userName.name" data-ng-repeat="userName in userNames">{{ userName.name }}</option>
+                </select>
+            </p>
+        </div>
     </div>
+    <a href="javascript: void(0);" data-ng-click="reset()">-</a>
 </div>
 </html>

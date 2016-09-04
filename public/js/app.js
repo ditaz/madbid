@@ -17,6 +17,7 @@ function(
             'ui.router'
             ,'ui.bootstrap'
             ,'ngResource'
+            ,'angular-storage'
         ]);
 
     app.config([

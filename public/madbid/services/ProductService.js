@@ -5,11 +5,11 @@ define([
     'require'
 ],function(require) {
     var angular = require('angular');
-    angular.module('madbid').factory('BidService', BidService);
-    BidService.$inject = ['$resource'];
-    return BidService;
+    angular.module('madbid').factory('ProductService', ProductService);
+    ProductService.$inject = ['$resource'];
+    return ProductService;
 
-    function BidService($resource) {
+    function ProductService($resource) {
         var endpoint = 'https://madbid.herokuapp.com/products/:id',
             resource = $resource(
                 endpoint,
@@ -45,6 +45,17 @@ define([
             },
             getList: function (success, error) {
                 resource.query(
+                    function (response) {
+                        if (success !== undefined && success instanceof Function)
+                            success.call(undefined, response);
+                    }
+                    , function (response) {
+                        if (error !== undefined && error instanceof Function)
+                            error.call(undefined, response);
+                    });
+            },
+            reset: function (success, error) {
+                resource.delete(
                     function (response) {
                         if (success !== undefined && success instanceof Function)
                             success.call(undefined, response);

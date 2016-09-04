@@ -6,7 +6,6 @@ var express = require('express'),
     server = require('http').createServer(app),
     mongodb = require('mongodb'),
     bodyParser = require('body-parser'),
-    path = require('path'),
     _ = require('lodash');
 
 app.use(function(req, res, next) {
@@ -25,11 +24,6 @@ app.use(function(req, res, next) {
 app.use('/', express.static(__dirname + '/public'));
 app.use('/node_modules', express.static(__dirname + '/node_modules'));
 app.use(bodyParser.json());
-
-// Serve index.html
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/public/index.html'));
-});
 
 var isLocal = false;
 if(isLocal) {
@@ -132,6 +126,16 @@ app.get('/products', function(req, res) {
     });
 });
 
+app.delete('/products', function(req, res) {
+   db.collections('products').drop(function(error, response) {
+       if(error) {
+           handleError(res, error.message, 'Failed to drop products collection', 500);
+       } else {
+           res.status(200).json({ response: response });
+       }
+   });
+});
+
 function handleError(response, reason, message, code) {
     console.log('ERROR: ' + reason);
     response.status(code || 500).json({'error': message});
@@ -141,13 +145,11 @@ function hasValidKeys(doc) {
     var clone = _.clone(doc);
     if(clone.hasOwnProperty('_id'))
         delete clone['_id'];
-    if(clone.hasOwnProperty('time'))
-        delete clone.time;
     if(clone.hasOwnProperty('$$hashKey'))
         delete clone['$$hashKey'];
 
     var keys = Object.keys(clone),
-        requiredKeys = ['name', 'category', 'price', 'winUser'];
+        requiredKeys = ['name', 'category', 'price', 'winUser', 'bidders', 'lastBidder', 'time'];
     console.log(JSON.stringify(doc));
     return _.difference(keys, requiredKeys).length === 0;
 }
