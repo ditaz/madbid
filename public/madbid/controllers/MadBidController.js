@@ -118,7 +118,16 @@ define([
             product.winUser = _.isEmpty(possibleWinners) || _.isEmpty(bidsTally) ? 'No Winner'
                 : (highestBidder.bids > 0 ? highestBidder.name : 'No Winner');
             product.time = 0;
-            bid(product);
+            ProductService.save(
+                params,
+                product,
+                function(response) {
+                    var index = _.findIndex($scope.products, { name: response.name });
+                    product = index > -1 ? response : product;
+                },
+                function(response) {
+
+                });
         });
 
         function bid(product) {
@@ -144,8 +153,7 @@ define([
                 },
                 function(response) {
                     alert('Your bid has failed');
-                }
-            );
+                });
         }
 
         function getBids(userName) {
