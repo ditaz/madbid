@@ -70,7 +70,8 @@ app.post('/products', function (req, res) {
             if(!_.isEmpty(doc)) {
                 handleError(res, 'Product already exists', 'Product already exists', 400);
             }
-            product.price+=0.01;
+            product.price.toFixed(2);
+            product.price+=.01;
             product.price.toFixed(2);
             db.collection('products').insertOne(product, function(err, doc) {
                 if (err) {
@@ -91,8 +92,8 @@ app.post('/products/:id', function (req, res) {
     }
     if(product.hasOwnProperty('_id'))
         delete product['_id'];
-
-    product.price+=0.01;
+    product.price.toFixed(2);
+    product.price+=.01;
     product.price.toFixed(2);
     db.collection('products').updateOne({_id: new ObjectID(req.params.id)}, product, function(error, doc) {
         if (error) {
