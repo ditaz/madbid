@@ -7,18 +7,20 @@ require.config({
     paths: {
         'jquery': 'node_modules/jquery/dist/jquery.min',
         'angular': 'node_modules/angular/angular.min',
-        'bootstrap': 'node_modules/bootstrap/dist/js/bootstrap.min',
-        'angular-ui-router': 'node_modules/angular-ui-router/release/angular-ui-router.min',
-        'ui-bootstrap': 'node_modules/angular-bootstrap/ui-bootstrap.min',
         'angular-resource': 'node_modules/angular-resource/angular-resource.min',
+        'angular-storage': 'node_modules/angular-storage/dist/angular-storage.min',
+        'angular-ui-router': 'node_modules/angular-ui-router/release/angular-ui-router.min',
         'lodash': 'node_modules/lodash/lodash.min',
+        'bootstrap': 'node_modules/bootstrap/dist/js/bootstrap.min',
+        'ui-bootstrap': 'node_modules/angular-bootstrap/ui-bootstrap.min',
         'routesConfig': 'js/route',
 		'app': 'js/app',
         'BaseController': 'shared/controllers/BaseController',
         'MadBidController': 'madbid/controllers/MadBidController',
         'CommunicationChannel': 'shared/services/CommunicationChannel',
-        'BidService': 'madbid/services/BidService',
-        'Timer': 'shared/directives/timer'
+        'ProductService': 'madbid/services/ProductService',
+        'Timer': 'shared/directives/timer',
+        'StorageService': 'shared/services/StorageService'
     },
     shim: {
         'jquery': {
@@ -28,17 +30,23 @@ require.config({
 			exports: 'angular',
             deps: ['jquery']
         },
-        'bootstrap': {
-            deps: ['jquery']
+        'angular-cookies': {
+            deps: ['angular']
+        },
+        'angular-resource': {
+            deps: ['angular']
+        },
+        'angular-storage': {
+            deps: ['angular']
         },
         'angular-ui-router': {
             deps: ['angular']
         },
+        'bootstrap': {
+            deps: ['jquery']
+        },
         'ui-bootstrap': {
             deps: ['jquery', 'angular', 'bootstrap']
-        },
-        'angular-resource': {
-            deps: ['angular']
         },
         'lodash': {
             exports: '_'
@@ -49,7 +57,10 @@ require.config({
         'Timer':{
             deps: ['angular']
         },
-        'BidService': {
+        'StorageService':{
+            deps: ['angular']
+        },
+        'ProductService': {
             deps: ['angular']
         },
         'BaseController': {
