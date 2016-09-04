@@ -176,7 +176,7 @@ define([
         }
 
         function isEligible(user) {
-            return user.bids < 15 && user.auctions < 2;
+            return user.bids <= 15 && user.auctions <= 2;
         }
 
         function reset() {
