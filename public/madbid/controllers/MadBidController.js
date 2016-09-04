@@ -65,7 +65,7 @@ define([
                 }
                 _.forEach(products, function (val) {
                     if(!val.hasOwnProperty('time')) val['time'] = 30;
-                    val.price.toFixed(2);
+                    val.price = val.price.toFixed(2);
                 });
                 $scope.products = products;
             },
