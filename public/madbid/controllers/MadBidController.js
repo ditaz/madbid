@@ -117,6 +117,7 @@ define([
             var highestBidder = _.sortBy(bidsTally, ['bids'])[bidsTally.length - 1];
             product.winUser = _.isEmpty(possibleWinners) || _.isEmpty(bidsTally) ? 'No Winner'
                 : (highestBidder.bids > 0 ? highestBidder.name : 'No Winner');
+            product.time = 0;
             bid(product);
         });
 
