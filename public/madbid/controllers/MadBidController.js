@@ -117,6 +117,7 @@ define([
             var highestBidder = _.sortBy(bidsTally, ['bids'])[bidsTally.length - 1];
             product.winUser = _.isEmpty(possibleWinners) || _.isEmpty(bidsTally) ? 'No Winner'
                 : (highestBidder.bids > 0 ? highestBidder.name : 'No Winner');
+            bid(product);
         });
 
         function bid(product) {
@@ -124,7 +125,9 @@ define([
                 alert('Invalid bid');
                 return;
             }
-            product.bidders.push(product.lastBidder);
+            if(product.time > 0) {
+                product.bidders.push(product.lastBidder);
+            }
             if(product.hasOwnProperty('$$hashKey'))
                 delete product['$$hashKey'];
 
