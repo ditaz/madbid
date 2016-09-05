@@ -7,8 +7,6 @@ define([
     ,'angular-resource'
     ,'angular-storage'
     ,'angular-ui-router'
-    ,'bootstrap'
-    ,'ui-bootstrap'
     ,'lodash'
     ,'CommunicationChannel'
     ,'ProductService'

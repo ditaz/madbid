@@ -11,8 +11,6 @@ require.config({
         'angular-storage': 'node_modules/angular-storage/dist/angular-storage.min',
         'angular-ui-router': 'node_modules/angular-ui-router/release/angular-ui-router.min',
         'lodash': 'node_modules/lodash/lodash.min',
-        'bootstrap': 'node_modules/bootstrap/dist/js/bootstrap.min',
-        'ui-bootstrap': 'node_modules/angular-bootstrap/ui-bootstrap.min',
         'routesConfig': 'js/route',
 		'app': 'js/app',
         'BaseController': 'shared/controllers/BaseController',
@@ -41,12 +39,6 @@ require.config({
         },
         'angular-ui-router': {
             deps: ['angular']
-        },
-        'bootstrap': {
-            deps: ['jquery']
-        },
-        'ui-bootstrap': {
-            deps: ['jquery', 'angular', 'bootstrap']
         },
         'lodash': {
             exports: '_'
