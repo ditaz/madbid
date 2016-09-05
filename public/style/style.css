@@ -55,3 +55,8 @@ select{
     background: #ccc;
     color: #000;
 }
+
+a{
+    color:red;
+    font-weight: bold;
+}
