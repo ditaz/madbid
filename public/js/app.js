@@ -15,7 +15,6 @@ function(
         'madbid',
         [
             'ui.router'
-            ,'ui.bootstrap'
             ,'ngResource'
             ,'angular-storage'
         ]);
