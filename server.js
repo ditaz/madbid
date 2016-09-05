@@ -9,7 +9,7 @@ var express = require('express'),
     _ = require('lodash');
 
 app.use(function(req, res, next) {
-    var allowedOrigins = ['https://madbid.herokuapp.com'],
+    var allowedOrigins = ['https://madbid.herokuapp.com', 'http://madbid.herokuapp.com'],
         origin = req.headers.origin;
     if(allowedOrigins.indexOf(origin) > -1) {
         res.setHeader('Access-Control-Allow-Origin', origin);
