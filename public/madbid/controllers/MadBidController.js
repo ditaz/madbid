@@ -28,6 +28,7 @@ define([
             CRASH_OVERRIDE = 'Crash Override'
 
         $scope.bid = bid;
+        $scope.isEmpty = isEmpty;
         $scope.reset = reset;
         $scope.products = [];
 
@@ -197,6 +198,10 @@ define([
 
         function isEligible(user) {
             return user.bids <= 15 && user.auctions <= 2;
+        }
+
+        function isEmpty(obj){
+            return _.isEmpty(obj);
         }
 
         function reset() {

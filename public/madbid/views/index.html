@@ -7,35 +7,32 @@
 </head>
 <div data-ng-controller="MadBidController">
     <div class="row" id="header">
-        <h3 class="col col1">Product Name</h3>
-        <h3 class="col col2">Current Auction Price</h3>
-        <h3 class="col col3">Winning UserName</h3>
+        <h3 class="col col1">Select UserName</h3>
+        <h3 class="col col2">Product Name</h3>
+        <h3 class="col col3">Current Auction Price</h3>
         <h3 class="col col4">Time Left</h3>
-        <h3 class="col col5">Bid!</h3>
-        <h3 class="col col6">Bidders</h3>
+        <h3 class="col col5">Winning UserName</h3>
     </div>
     <div class="row" id="prod-list" data-ng-repeat="product in products">
         <div class="col col1">
-            <p>{{product.name}}</p>
+            <p>
+                <select data-ng-model="product.lastBidder">
+                    <option data-ng-value="userName.name" data-ng-repeat="userName in userNames">{{ userName.name }}</option>
+                </select>
+                <button class="button" ng-class="{disabled: product.time==0 || isEmpty(product.lastBidder), enabled: product.time!=0 && !isEmpty(product.lastBidder)}" data-ng-click="bid(product)" data-ng-disabled="product.time==0 || isEmpty(product.lastBidder)">BID!</button>
+            </p>
         </div>
         <div class="col col2">
-           <p>{{product.price}}</p>
+            <p>{{product.name}}</p>
         </div>
         <div class="col col3">
-            <p>{{product.winUser}}</p>
+            <p>{{product.price}}</p>
         </div>
         <div class="col col4">
             <p><timer product="product"></timer></p>
         </div>
         <div class="col col5">
-            <p><button class="button" data-ng-click="bid(product)" data-ng-hide="product.time==0">BID!</button></p>
-        </div>
-        <div class="col col5">
-            <p>
-                <select data-ng-model="product.lastBidder">
-                    <option data-ng-value="userName.name" data-ng-repeat="userName in userNames">{{ userName.name }}</option>
-                </select>
-            </p>
+            <p>{{product.winUser}}</p>
         </div>
     </div>
     <a href="javascript: void(0);" data-ng-click="reset()">-</a>
