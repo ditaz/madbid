@@ -22,7 +22,7 @@ define([
         ,CommunicationChannel
         ,ProductService
     ) {
-        const ZERO_COOL = 'Zero Cool',
+        var ZERO_COOL = 'Zero Cool',
             ACID_BURN = 'Acid Burn',
             THE_PLAGUE = 'The Plague',
             CRASH_OVERRIDE = 'Crash Override'
